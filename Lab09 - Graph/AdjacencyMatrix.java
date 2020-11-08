@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Scanner;
+import java.util.*;
 
 public class AdjacencyMatrix{
     private int[][] adj;
@@ -58,5 +59,28 @@ public class AdjacencyMatrix{
             }
 
         graph.printGraph();
+        graph.BFS(1);
+        
+    }
+
+    public void BFS(int s){
+        boolean visited[] = new boolean[NUMBER_OF_VERTICES+1];
+
+        Queue<Integer> queue = new LinkedList<Integer>();
+
+        visited[s] = true;
+        queue.add(s);
+
+        while(!queue.isEmpty()){
+            int x = queue.poll();
+            System.out.print(x + " ");
+
+            for(int i = 1; i <= NUMBER_OF_VERTICES; ++i){
+                if (adj[x][i] != 0 && visited[i] == false){
+                    queue.add(i);
+                    visited[i] = true;
+                }
+            }
+        }
     }
 }
