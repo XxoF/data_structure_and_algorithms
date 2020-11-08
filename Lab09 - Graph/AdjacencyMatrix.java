@@ -59,8 +59,12 @@ public class AdjacencyMatrix{
             }
 
         graph.printGraph();
+        System.out.println("BFS: ");
         graph.BFS(1);
-        
+        System.out.println("DFS: ");
+        graph.DFS(1);
+        System.out.println();
+
     }
 
     public void BFS(int s){
@@ -83,4 +87,23 @@ public class AdjacencyMatrix{
             }
         }
     }
+
+    public void DFS_recur(int v, boolean[] visited){
+        visited[v] = true;
+
+        System.out.print(v + " ");
+
+        for(int i = 1; i<= NUMBER_OF_VERTICES;++i){
+            if(adj[v][i] != 0 && visited[i] == false){
+                DFS_recur(i, visited);
+            }
+        }
+    }
+
+    public void DFS(int s){
+        boolean[] visited = new boolean[NUMBER_OF_VERTICES+1];
+        DFS_recur(s, visited);
+    }
+
+
 }
