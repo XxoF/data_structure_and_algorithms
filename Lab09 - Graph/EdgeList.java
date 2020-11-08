@@ -6,25 +6,25 @@ class IntegerTriple{
     private Integer source;
     private Integer dest;
 
-    private IntegerTriple(Integer w, Integer s, Integer d){
+    public IntegerTriple(Integer w, Integer s, Integer d){
         weight = w;
         source = s;
         dest = d;
     }
 
-    private IntegerTriple(Integer s, Integer d){
-        this(1,d,s);
+    public IntegerTriple(Integer s, Integer d){
+        this(1,s,d);
     }
 
-    private Integer getWeight(){
+    public Integer getWeight(){
         return weight;
     }
 
-    private Integer getSource(){
+    public Integer getSource(){
         return source;
     }
 
-    private Integer getDest(){
+    public Integer getDest(){
         return dest;
     }
 
@@ -44,20 +44,22 @@ public class EdgeList{
 
     public void addEdge(Integer w, Integer u, Integer v){
         edges.add(new IntegerTriple(w,u,v));
-        edges.add(new IntegerTriple)
     }
 
+    
     public void addEdge(Integer u, Integer v){
-        edges.add(new IntegerTriple(u,v));
+        this.addEdge(1,u,v);
     }
+
     public void printGraph(){
+        System.out.println("w u v");
         for(int i = 0;i<edges.size();++i){
             System.out.println(edges.get(i));
         }
     }
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(new BufferedReader(new FileReader("input.txt")));    
+    public static void main(String[] args) throws Exception {
+        Scanner sc = new Scanner(new BufferedReader(new FileReader("input2.txt")));    
         EdgeList graph = new EdgeList();
         int n = sc.nextInt();
         for(int i = 1; i<=n;++i){
