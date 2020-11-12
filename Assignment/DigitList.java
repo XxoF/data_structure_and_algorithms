@@ -168,10 +168,41 @@ public class DigitList {
 	/******************************** STUDENT'S CODE ********************************/
 
     public static DigitList subDigitLists(int c, DigitList L1, DigitList L2) {
-        // code here
-        return new DigitList();
+        if ((L1 == null) && (L2 == null))
+            return digitize(c);
+        else if (L1 == null)
+            return subDigitLists(c, L2, null);
+        else if (L2 == null) {
+            if (c == 0)
+                return L1.getNextDigit();
+            int t = L1.getDigit() - c;
+            return new DigitList(t % 10, subDigitLists(t / 10, L1.getNextDigit(), null));
+        } else {
+            int t = L1.getDigit() - L2.getDigit() - c;
+            if(t < 0){
+                t = 10-t;
+                c = 1;
+            }
+            else
+                c = 0;
+            return new DigitList(t % 10, subDigitLists(c, L1.getNextDigit(), L2.getNextDigit()));
+        }
     }
-	
+    
+    public static DigitList mulDigitLists(int c, DigitList L1, DigitList L2) {
+        if ((L1 == null) && (L2 == null))
+            return digitize(c);
+        else if (L1 == null)
+            return mulDigitLists(c, L2, null);
+        else if (L2 == null) {
+            int t = c + L1.getDigit();
+            return new DigitList(t % 10, mulDigitLists(t / 10, L1.getNextDigit(), null));
+        } else {
+            int t = c + L1.getDigit() * L2.getDigit();
+            return new DigitList(t % 10, mulDigitLists(t / 10, L1.getNextDigit(), L2.getNextDigit()));
+        }
+    }
+
 	public static DigitList digitize(String str) {
 		// complete this code to handle ! operator
         if (str.indexOf("^") != -1) {

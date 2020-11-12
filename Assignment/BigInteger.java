@@ -130,13 +130,14 @@ public class BigInteger {
     }
 
     public BigInteger sub(BigInteger other) {
-        // code here
-        return new BigInteger();
+        return new BigInteger(0, DigitList.subDigitLists(0,this.digits, other.digits));
     }    
 
     public BigInteger mul(BigInteger other) {
-        // code here
-        return new BigInteger();
+        if (this.sign == other.sign)
+            return new BigInteger(0, DigitList.mulDigitLists(0,this.digits, other.digits));
+        else
+            return new BigInteger(-1, DigitList.mulDigitLists(0,this.digits, other.digits));
     }
 
     public static BigInteger pow(BigInteger X, BigInteger Y) {
@@ -158,8 +159,10 @@ public class BigInteger {
                     output = output.add(operandArr.get(j + 1));
                     break;
                 case '-':
+                    output = output.sub(operandArr.get(j + 1));
                     break;
                 case '*':
+                    output = output.mul(operandArr.get(j + 1));
                     break;
                 default:
                     break;
