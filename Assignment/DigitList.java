@@ -90,6 +90,7 @@ public class DigitList {
         return -1;
     }
 
+
     public static DigitList addDigitLists(int c, DigitList L1, DigitList L2) {
         if ((L1 == null) && (L2 == null))
             return digitize(c);
@@ -169,23 +170,23 @@ public class DigitList {
 
     public static DigitList subDigitLists(int c, DigitList L1, DigitList L2) {
         if ((L1 == null) && (L2 == null))
-            return digitize(c);
+            return null;
         else if (L1 == null)
-            return subDigitLists(c, L2, null);
+            return L2;
         else if (L2 == null) {
-            if (c == 0)
-                return L1.getNextDigit();
-            int t = L1.getDigit() - c;
-            return new DigitList(t % 10, subDigitLists(t / 10, L1.getNextDigit(), null));
+            return L1;
         } else {
-            int t = L1.getDigit() - L2.getDigit() - c;
-            if(t < 0){
-                t = 10-t;
-                c = 1;
+            int t1 = L1.getDigit();
+            int t2 = L2.getDigit();
+            int tmp = 0;
+            if(t1 < t2+c){
+                t1+=10;
+                tmp = 1;
             }
             else
-                c = 0;
-            return new DigitList(t % 10, subDigitLists(c, L1.getNextDigit(), L2.getNextDigit()));
+                tmp = 0;
+            int t = t1 - t2 - c;
+            return new DigitList(t, subDigitLists(tmp, L1.getNextDigit(), L2.getNextDigit()));
         }
     }
     

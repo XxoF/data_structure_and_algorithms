@@ -125,12 +125,46 @@ public class BigInteger {
         // complete this code
         if (this.sign == other.sign)
             return new BigInteger(this.sign, DigitList.addDigitLists(0, this.digits, other.digits));
-        else
-            return new BigInteger();
+        else{
+            int cmp = DigitList.compareDigitLists(this.digits, other.digits);
+            if(cmp == 0){
+                //this == other => ans = 0
+                return new BigInteger(new DigitList(0,null));
+            }
+            else{
+                if (cmp == -1){
+                    //abs(this) < abs(other) => BigNumber is negative
+                    return new BigInteger(other.sign, DigitList.trimDigitList(DigitList.subDigitLists(0, other.digits, this.digits)));
+                }
+                else{
+                    // abs(this) > abs(other) => BigNumber is positive
+                    return new BigInteger(this.sign, DigitList.trimDigitList(DigitList.subDigitLists(0, this.digits, other.digits)));
+                }  
+            }
+        }
     }
 
     public BigInteger sub(BigInteger other) {
-        return new BigInteger(0, DigitList.subDigitLists(0,this.digits, other.digits));
+        if (this.sign != other.sign)
+            return new BigInteger(this.sign, DigitList.addDigitLists(0, this.digits, other.digits));
+        else{
+            int cmp = DigitList.compareDigitLists(this.digits,other.digits);
+            if (cmp == 0){
+                // this = other => BigNumber is 0
+                return new BigInteger(new DigitList(0,null));
+            }
+            else{    
+                if (cmp == -1){
+                    // abs(this) < abs(other) => BigNumber is negative
+
+                    return new BigInteger(-this.sign, DigitList.trimDigitList(DigitList.subDigitLists(0, other.digits, this.digits)));
+                }
+                else{
+                    // abs(this) > abs(other) => BigNumber is positive
+                    return new BigInteger(this.sign, DigitList.trimDigitList(DigitList.subDigitLists(0, this.digits, other.digits)));
+                }
+            }
+        }
     }    
 
     public BigInteger mul(BigInteger other) {
