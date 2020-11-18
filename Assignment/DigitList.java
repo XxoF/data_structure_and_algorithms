@@ -200,20 +200,6 @@ public class DigitList {
             return new DigitList(t, subDigitLists(tmp, L1.getNextDigit(), L2.getNextDigit()));
         }
     }
-    
-    public static DigitList mulDigitLists(int c, DigitList L1, DigitList L2) {
-        if ((L1 == null) && (L2 == null))
-            return digitize(c);
-        else if (L1 == null)
-            return mulDigitLists(c, L2, null);
-        else if (L2 == null) {
-            int t = c + L1.getDigit();
-            return new DigitList(t % 10, mulDigitLists(t / 10, L1.getNextDigit(), null));
-        } else {
-            int t = c + L1.getDigit() * L2.getDigit();
-            return new DigitList(t % 10, mulDigitLists(t / 10, L1.getNextDigit(), L2.getNextDigit()));
-        }
-    }
 
 	public static DigitList digitize(String str) {
         if (str.indexOf("^") != -1) {

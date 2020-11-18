@@ -156,7 +156,6 @@ public class BigInteger {
             else{    
                 if (cmp == -1){
                     // abs(this) < abs(other) => BigNumber is negative
-
                     return new BigInteger(-this.sign, DigitList.trimDigitList(DigitList.subDigitLists(0, other.digits, this.digits)));
                 }
                 else{
@@ -168,10 +167,7 @@ public class BigInteger {
     }    
 
     public BigInteger mul(BigInteger other) {
-        if (this.sign == other.sign)
-            return new BigInteger(0, DigitList.mulDigitLists(0,this.digits, other.digits));
-        else
-            return new BigInteger(-1, DigitList.mulDigitLists(0,this.digits, other.digits));
+        return new BigInteger();
     }
 
     public static BigInteger pow(BigInteger X, BigInteger Y) {
@@ -181,11 +177,10 @@ public class BigInteger {
 
     public static BigInteger factorial(BigInteger X) {
         //System.out.println("Factorial\n");
-        return new BigInteger;
+        return new BigInteger();
     }
 
     public static BigInteger computeValue(ArrayList<BigInteger> operandArr, ArrayList<Character> operatorArr) {
-		// complete - and * operator
 		BigInteger output = operandArr.get(0);
         for (int j = 0; j < operatorArr.size(); j++) {
             switch (operatorArr.get(j)) {
