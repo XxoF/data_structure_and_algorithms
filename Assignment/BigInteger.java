@@ -180,8 +180,8 @@ public class BigInteger {
     }
 
     public static BigInteger factorial(BigInteger X) {
-        // code here
-        return new BigInteger();
+        //System.out.println("Factorial\n");
+        return new BigInteger;
     }
 
     public static BigInteger computeValue(ArrayList<BigInteger> operandArr, ArrayList<Character> operatorArr) {

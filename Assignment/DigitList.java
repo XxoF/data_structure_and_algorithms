@@ -216,7 +216,6 @@ public class DigitList {
     }
 
 	public static DigitList digitize(String str) {
-		// complete this code to handle ! operator
         if (str.indexOf("^") != -1) {
             String x = str.substring(0, str.indexOf("^"));
             String y = str.substring(str.indexOf("^") + 1);
@@ -235,8 +234,14 @@ public class DigitList {
             M = trimDigitList(M);
             return BigInteger.pow(new BigInteger(L), new BigInteger(M)).getDigits();
         } else if (str.indexOf("!") != -1) {
-            // code here
-			return new DigitList();
+            String x = str.substring(0,str.indexOf("!"));
+            DigitList L = null;
+
+            for(int i = 0; i<x.length();++i){
+                L = new DigitList(x.charAt(i) - '0', L);
+            }
+            L = trimDigitList(L);
+			return BigInteger.factorial(new BigInteger(L)).getDigits();
         } else {
             DigitList L = null;
             for (int i = 0; i < str.length(); i++) {
