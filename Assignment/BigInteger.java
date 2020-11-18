@@ -167,7 +167,57 @@ public class BigInteger {
     }    
 
     public BigInteger mul(BigInteger other) {
-        return new BigInteger();
+        if(this.length() < other.length())
+            return new BigInteger(this.sign*other.sign,other.mul(this).getDigits());
+        int n = this.length()/2;
+        int tmp = this.length() - other.length();
+        if(tmp > 0){
+            DigitList otherList = other.getDigits();
+            DigitList lastDigit = other.getDigits();
+            while(lastDigit != null && lastDigit.getNextDigit() != null){
+                lastDigit = lastDigit.getNextDigit();
+            }
+            for(int i = 1; i<=tmp;++i){
+                lastDigit.setNextDigit(new DigitList());
+                lastDigit = lastDigit.getNextDigit();
+            }
+
+        }
+        if(this.length() >= 2){  //dung cong thuc tong quat de tinh
+
+            BigInteger x_left = this.leftDigits(n);
+            x_left.setSign(this.sign);
+            BigInteger y_left = other.leftDigits(n);
+            y_left.setSign(other.sign);
+            BigInteger x_right = this.rightDigits(this.length() - n);
+            x_right.setSign(this.sign);
+            BigInteger y_right = other.rightDigits(other.length() - n);
+            y_right.setSign(other.sign);
+
+            // L1 = x_left * y_left
+            BigInteger L1 = x_left.mul(y_left);
+            L1.setSign(x_left.sign * y_left.sign);
+            //L1.setSign(x_left.getSign() * y_left.getSign());
+            
+            // L2 = 10^n * (x_right * y_left + x_left * y_right)
+            BigInteger xr_yl = x_right.mul(y_left);
+            xr_yl.setSign(x_right.getSign() * y_left.getSign());
+            BigInteger xl_yr = x_left.mul(y_right);
+            xl_yr.setSign(x_left.getSign() * y_right.getSign());
+            BigInteger L2 = xr_yl.add(xl_yr).shift(n);
+            //L2.setSign(x_left.getSign() * y_left.getSign() + );
+
+            BigInteger L3 = x_right.mul(y_right).shift(n*2);
+            L3.setSign(x_right.sign * y_right.sign);
+            BigInteger ans = L1.add(L2).add(L3);
+            return new BigInteger(ans.sign,DigitList.trimDigitList(ans.getDigits()));
+        }
+        else{
+            // nhan hai so truc tiep
+            int L1 = this.getDigits().getDigit();
+            int L2 = other.getDigits().getDigit();
+            return new BigInteger(this.sign*other.sign, DigitList.trimDigitList(DigitList.digitize(L1*L2)));
+        }
     }
 
     public static BigInteger pow(BigInteger X, BigInteger Y) {
