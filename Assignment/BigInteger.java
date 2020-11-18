@@ -244,8 +244,19 @@ public class BigInteger {
     }
 
     public static BigInteger factorial(BigInteger X) {
-        //System.out.println("Factorial\n");
-        return new BigInteger();
+        int d = 1;
+        int p = X.getDigits().getDigit();
+        DigitList digitX = X.getDigits();
+        while(digitX != null && digitX.getNextDigit() != null){
+            digitX = digitX.getNextDigit();
+            d*=10;
+            p += d * digitX.getDigit();      
+        }
+        BigInteger ans = new BigInteger(X.sign, DigitList.digitize(1));
+        for(int i = 2; i<=p;++i){
+            ans = ans.mul(new BigInteger(DigitList.digitize(i)));
+        }
+        return ans;
     }
 
     public static BigInteger computeValue(ArrayList<BigInteger> operandArr, ArrayList<Character> operatorArr) {
