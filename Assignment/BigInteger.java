@@ -221,8 +221,26 @@ public class BigInteger {
     }
 
     public static BigInteger pow(BigInteger X, BigInteger Y) {
-        // code here
-        return new BigInteger();
+        int d = 1;
+        int p = Y.getDigits().getDigit();
+        DigitList digitY = Y.getDigits();
+        while(digitY != null && digitY.getNextDigit() != null){
+            digitY = digitY.getNextDigit();
+            d*=10;
+            p += d * digitY.getDigit();      
+        }
+        BigInteger ans = X;
+        for(int i = 1; i<p;++i){
+            ans = ans.mul(X);
+        }
+
+        if(X.sign < 0){
+            if(p % 2 == 0)
+                ans.sign = 1;
+            else   
+                ans.sign = -1;
+        }
+        return ans;
     }
 
     public static BigInteger factorial(BigInteger X) {
