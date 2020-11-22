@@ -221,40 +221,35 @@ public class BigInteger {
     }
 
     public static BigInteger pow(BigInteger X, BigInteger Y) {
-        int d = 1;
-        int p = Y.getDigits().getDigit();
-        DigitList digitY = Y.getDigits();
-        while(digitY != null && digitY.getNextDigit() != null){
-            digitY = digitY.getNextDigit();
-            d*=10;
-            p += d * digitY.getDigit();      
+        if(Y.getDigits().length() == 1){
+            if(Y.getDigits().getDigit() == 0){
+                // X^0 = 1
+                return new BigInteger(DigitList.digitize(1));
+            }
+            else if(Y.getDigits().getDigit() == 1){
+                //X^1==X;
+                return X;
+            }
         }
-        BigInteger ans = X;
-        for(int i = 1; i<p;++i){
+        BigInteger ans = X.copy();
+        BigInteger count = Y.copy();
+        
+        while (DigitList.compareDigitLists(count.getDigits(), DigitList.digitize(1)) == 1){
+            // Neu Y > 0 thi tiep tuc nhan
             ans = ans.mul(X);
-        }
-
-        if(X.sign < 0){
-            if(p % 2 == 0)
-                ans.sign = 1;
-            else   
-                ans.sign = -1;
+            count = count.sub(new BigInteger(DigitList.digitize(1)));
         }
         return ans;
     }
 
     public static BigInteger factorial(BigInteger X) {
-        int d = 1;
-        int p = X.getDigits().getDigit();
-        DigitList digitX = X.getDigits();
-        while(digitX != null && digitX.getNextDigit() != null){
-            digitX = digitX.getNextDigit();
-            d*=10;
-            p += d * digitX.getDigit();      
-        }
-        BigInteger ans = new BigInteger(X.sign, DigitList.digitize(1));
-        for(int i = 2; i<=p;++i){
-            ans = ans.mul(new BigInteger(DigitList.digitize(i)));
+        BigInteger ans = X.copy();
+        BigInteger count = X.sub(new BigInteger(DigitList.digitize(1))).copy();
+
+        while (DigitList.compareDigitLists(count.getDigits(), DigitList.digitize(1)) == 1){
+            // Neu Y > 0 thi tiep tuc nhan
+            ans = ans.mul(count);
+            count = count.sub(new BigInteger(DigitList.digitize(1)));
         }
         return ans;
     }
